@@ -19,9 +19,12 @@ module.exports = () => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './src/index.html',
-        chunks: ['main'],
+        template: './index.html',
         title: 'Just Another Text Editor'       
+      }),
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js',
       }),
       new WebpackPwaManifest({
         name: 'Just Another Text Editor',
@@ -29,7 +32,8 @@ module.exports = () => {
         description: 'A simple text editor',
         background_color: '#01579b',
         theme_color: '#ffffff',
-        start_url: '/',
+        start_url: './',
+        publicPath: './',
         display: 'standalone',
         fingerprints: false,
         inject: true,
@@ -42,12 +46,9 @@ module.exports = () => {
           },
     ],
       }),
-      new InjectManifest({
-        swSrc: './src/sw.js',
-        swDest: 'sw.js',
-      }),
+    
     ],
-    module: {
+    module: { 
       rules: [{
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
